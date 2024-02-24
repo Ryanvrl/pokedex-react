@@ -7,28 +7,12 @@ import { TypeComponent } from "../typeComponent/typeComponent"
 
 const CardPokemon = ({ pokemon }) => {
     const { theme } = useContext(ThemeContext)
-    const [isHover, setIsHover] = useState(false);
-
-
-    const handleMouseEnter = () => {
-        setIsHover(true);
-    }
-    const handleMouseLeave = () => {
-        setIsHover(false);
-    }
-
-    const boxStyle = {
-        backgroundColor: isHover ? theme.backgroundPokemon : '',
-    }
 
     return (
-
-        <Card className="cards" style={boxStyle}
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}>
-            <img src={pokemon ? pokemon.sprites.other.home.front_default: '<div>Carregando...</div>'} alt={pokemon.name} className='img-card' style={{ backgroundColor: theme.backgroundPokemon }} />
-            <span className="number" style={{ color: theme.colorPokemon }}>Nº{pokemon.id}</span>
-            <h3 style={{ color: theme.colorPokemon }} className="name-pokemon">{pokemon.name}</h3>
+        <Card className="cards" theme={theme} >
+            <img src={pokemon ? pokemon.sprites.other.home.front_default : '<div>Carregando...</div>'} alt={pokemon.name} className='img-card' />
+            <span className="number">Nº{pokemon.id}</span>
+            <h3 className="name-pokemon">{pokemon.name}</h3>
             <div className="types">
                 {pokemon.types.
                     map((types) =>
@@ -38,7 +22,6 @@ const CardPokemon = ({ pokemon }) => {
                     )}
             </div>
         </Card>
-
     )
 }
 
@@ -55,10 +38,12 @@ const Card = styled.li`
     padding-bottom: 10px;
     &:hover { 
         cursor: pointer;
+        background-color: ${(theme) => theme.theme.backgroundPokemon};
     }
     
     .number {
         font-weight: 300; 
+        color: ${(theme) => theme.theme.colorPokemon};
     }
 
     .img-card {
@@ -66,11 +51,13 @@ const Card = styled.li`
         margin-bottom: 10px;
         border-radius: 10px;
         padding: 10px;
+        background-color: ${(theme) => theme.theme.backgroundPokemon};
     }
 
     .name-pokemon {
         font-size: 20px;   
         font-weight: 400;
+        color: ${(theme) => theme.theme.colorPokemon};
     }
 
     .types {

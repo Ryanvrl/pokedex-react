@@ -7,17 +7,23 @@ import { BarFunctions } from "../barFunctions/BarFunctions"
 import { useContext } from "react"
 import { ThemeContext } from "../contexts/theme-context"
 import { Link } from "react-router-dom"
+import { Loading } from "../loading/loading"
+
 
 
 const Pokemons = () => {
     const [pokemon, setPokemon] = useState([])
     const [numberPerPage, setNumberPerPage] = useState(10)
     const [search, setSearch] = useState('')
-    const [types, setTypes] = useState([])
+    const [removeLoading, setRemoveLoading] = useState(false)
     const { theme } = useContext(ThemeContext)
 
     useEffect(() => {
         getCardPokemon()
+        setTimeout(() => {
+            setRemoveLoading(true)
+        }, 400);
+        setRemoveLoading(false)
     }, [numberPerPage])
 
     const getCardPokemon = () => {
@@ -29,14 +35,16 @@ const Pokemons = () => {
 
     }
 
+    // AO ROLAR A PAGINA INICIAL PARA BAIXO E CLICAR NO PIKACHU POR EXEMPLO, A SCROLL BAR DA PAGINA DE DETALHES COMEÇA POR BAIXO, NÃO CONSEGUI RESOLVER ISSO. E TAMBÉM OS AVISOS DO CONSOLE SOBRE A FONTE DA LOGO.
 
     return (
-        <Main style={{ backgroundColor: theme.background }} >
+        <Main theme={theme}>
+
             <div className="container-main">
                 <BarFunctions search={search} setSearch={setSearch} />
                 <div className="container-list">
                     <ul className="container-cards">
-                        {pokemon
+                        {(numberPerPage == 10 || numberPerPage > 10) && pokemon
                             .filter((poke) =>
                                 poke.data.name.toLowerCase()
                                     .includes(search.toLowerCase())
@@ -52,20 +60,27 @@ const Pokemons = () => {
                             )
                         }
                     </ul>
+
                 </div>
 
-                <button className="carregar-mais" onClick={() => setNumberPerPage(numberPerPage + 10)} style={{ color: theme.color }}>Load More</button>
+                {!removeLoading && <Loading />}
+
+                <button className="load-more" onClick={() => setNumberPerPage(numberPerPage + 10)} >Load more</button>
             </div>
+
+
         </Main>
+
     )
 }
 
 const Main = styled.main`
+    background-color: ${(theme) => theme.theme.background};
     padding: 0px;
+    padding-bottom: 40px;
     display: flex;   
     align-items: center;
     justify-content: space-between;
-    background-color: #fff;
     flex-direction: column;
     min-height: 100vh;
 
@@ -77,14 +92,14 @@ const Main = styled.main`
         text-decoration: none;
     }
 
-    .carregar-mais {
+    .load-more {
         background: none;
         border: none;
         cursor: pointer;
         padding: 20px;
         border-radius: 10px;
         background-color:  #E3350D;
-        color: #fff;
+        color: ${(theme) => theme.theme.color};
         margin: 20px;
         font-weight: 700;
     }

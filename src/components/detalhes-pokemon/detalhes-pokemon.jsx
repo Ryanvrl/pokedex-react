@@ -6,7 +6,7 @@ import { ThemeContext } from "../contexts/theme-context"
 import { useParams } from "react-router-dom"
 import { BarFunctions } from "../barFunctions/BarFunctions"
 import { TypeComponent } from "../typeComponent/typeComponent"
-
+import { Loading } from "../loading/loading"
 
 const getPokemon = async (id) => {
     const response = await axios.get(`${urlDefault}/${id}`)
@@ -19,6 +19,7 @@ const DetalhesPokemon = () => {
     const [moves, setMoves] = useState([])
     const [types, setTypes] = useState([])
     const [abilities, setAbilities] = useState([])
+    const [removeLoading, setRemoveLoading] = useState(false)
     const { theme } = useContext(ThemeContext)
     const idPoke = useParams()
 
@@ -30,6 +31,11 @@ const DetalhesPokemon = () => {
             getMoves(response)
             getAbilities(response)
             setTypes(response.types)
+            setTimeout(async () => {
+                setRemoveLoading(true)
+                await response
+            }, 500);
+            setRemoveLoading(false)
         }
         fetchData()
     }, [])
@@ -46,58 +52,60 @@ const DetalhesPokemon = () => {
         let urlAbility = []
         let abilitiesFinal = []
         urlAbility = pokemon.abilities.map((abili) => urlAbility = (abili.ability.url))
-
         const response = await axios.all(urlAbility.map((url) => axios.get(url).then((res) => abilitiesFinal.push(res.data))))
-        console.log(abilitiesFinal);
         setAbilities(abilitiesFinal)
     }
+
+    // AO ROLAR A PAGINA INICIAL PARA BAIXO E CLICAR NO PIKACHU POR EXEMPLO, A SCROLL BAR DA PAGINA DE DETALHES COMEÇA POR BAIXO, NÃO CONSEGUI RESOLVER ISSO. E TAMBÉM OS AVISOS DO CONSOLE SOBRE A FONTE DA LOGO.
 
     return (
         <Main theme={theme}>
             <div className="functions">
                 <BarFunctions />
-
             </div>
-            <div className="pokemon-page">
-                <div className="info-pokemon">
-                    <h1 className="title-pokemon">{pokemon.name}</h1>
-                    <div className="container-type info">
-                        <h3 className="title-type title">Type</h3>
-                        <div className="types">
-                            {types
-                                .map((types) =>
-                                    <TypeComponent key={types.type.name} type={types.type.name} theme={theme} className="type-component"> 
-                                        {types.type.name}
-                                    </TypeComponent>
-                                )
-                            }
+            {removeLoading === true &&
+                <>
+                    <div className="pokemon-page">
+                        <div className="info-pokemon">
+                            <h1 className="title-pokemon">{pokemon.name}</h1>
+                            <div className="container-type info">
+                                <h3 className="title-type title">Type</h3>
+                                <div className="types">
+                                    {types
+                                        .map((types) =>
+                                            <TypeComponent key={types.type.name} type={types.type.name} theme={theme} className="type-component">
+                                                {types.type.name}
+                                            </TypeComponent>
+                                        )
+                                    }
+                                </div>
+                            </div>
                         </div>
+                        <img src={image} alt="Pokemon imagem" className="pokemon-imagem" />
                     </div>
-
-                </div>
-                <img src={image} alt="Pokemon imagem" className="pokemon-imagem" />
-            </div>
-            <div className="abilities-container">
-                <h3 className="title-abilities title">Abilities</h3>
-                {abilities.map((abilitys) =>
-                    <div key={abilitys.id}>
-                        {abilitys.name}
-                        <div>
-                            {abilitys.effect_entries[1].effect}
-                        </div>
+                    <div className="abilities-container">
+                        <h3 className="title-abilities title">Abilities</h3>
+                        {abilities.map((abilitys) =>
+                            <div key={abilitys.id}>
+                                <h4 className="title-ability">{abilitys.name}</h4>
+                                <div className="text-ability">
+                                    {abilitys.effect_entries.length === 0 ? '' : abilitys.effect_entries[1].effect}
+                                </div>
+                            </div>
+                        )}
                     </div>
-                )}
-
-            </div>
-            <div className="moves-container">
-                <h3 className="title-moves title">Moves</h3>
-                {moves.map((move) =>
-                    <span key={move.move.name}
-                        className="move"
-                    >{move.move.name}</span>
-                )
-                }
-            </div>
+                    <div className="moves-container">
+                        <h3 className="title-moves title">Moves</h3>
+                        {moves.map((move) =>
+                            <span key={move.move.name}
+                                className="move"
+                            >{move.move.name}</span>
+                        )
+                        }
+                    </div>
+                </>
+            }
+            {!removeLoading && <Loading />}
         </Main>
     )
 }
@@ -105,17 +113,20 @@ const DetalhesPokemon = () => {
 const Main = styled.main`
     background-color: ${(theme) => theme.theme.background};
     display: flex;
-    justify-content: center;
     align-items: center;
     flex-direction: column;
     min-height: 90vh;
     font-family: Rubik;
+    padding-bottom: 30px;
+
+    
 
     .pokemon-page {
         width: 100%;
         display: flex;
         justify-content: space-evenly;
         align-items: center;
+        margin: 10px;
     }
 
     .functions {
@@ -128,6 +139,7 @@ const Main = styled.main`
         background-color: ${(theme) => theme.theme.backgroundPokemon};
         color: ${(theme) => theme.theme.colorPokemon};
         width:400px;
+       
     }
 
     .title-pokemon {
@@ -148,6 +160,15 @@ const Main = styled.main`
         margin-bottom: 15px;
     }
 
+    .title-ability {
+        margin: 30px 0 5px;
+    }
+
+    .text-ability {
+        margin-left: 10px;
+        min-width: 225px;
+    }
+
     .types {
         display: flex;
         justify-content: space-evenly;
@@ -160,7 +181,7 @@ const Main = styled.main`
     .abilities-container {
         background-color: ${(theme) => theme.theme.backgroundPokemon};
         color: ${(theme) => theme.theme.colorPokemon};
-        margin: 40px 20px;
+        margin: 10px;
         padding: 20px;
         border-radius: 10px;
     }
@@ -168,7 +189,7 @@ const Main = styled.main`
     .moves-container {
         color: ${(theme) => theme.theme.colorPokemon};
         background-color: ${(theme) => theme.theme.backgroundPokemon};
-        margin:20px;
+        margin:10px;
         padding: 20px;
         border-radius: 10px;
     }
@@ -182,11 +203,55 @@ const Main = styled.main`
         color: ${(theme) => theme.theme.colorPokemon};
     }
 
-    @media (min-width: 1250px) {
+    @media (min-width: 1450px) {
         .pokemon-imagem {
             width: 700px;
         }
     } 
+
+    @media (max-width: 850px) {
+        .pokemon-imagem {
+            width: 300px;
+        }
+
+        .title-pokemon {
+            font-size: 40px;
+        }
+
+        .info-pokemon {
+            width: 300px;
+        }
+    } 
+
+    @media (max-width: 600px) {
+        .pokemon-imagem {
+            width: 240px;
+        }
+
+        .info-pokemon {
+            width: 240px;
+        }
+    } 
+
+    @media (max-width:500px) {
+        .pokemon-page {
+            flex-direction: column-reverse;
+        }
+
+        .pokemon-imagem {
+            width: 260px;
+            margin-bottom: 20px;
+        }
+
+        .title-pokemon {
+            font-size: 30px;
+        }
+
+        .info-pokemon {
+            width: 260px;
+        }
+    } 
+
 `
 
 export { DetalhesPokemon }
