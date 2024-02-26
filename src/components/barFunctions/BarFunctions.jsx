@@ -2,6 +2,7 @@ import styled from "styled-components"
 import { FiSearch } from 'react-icons/fi';
 import { Theme } from "../theme/theme";
 
+
 const BarFunctions = ({ search, setSearch }) => {
     return (
         <Function>

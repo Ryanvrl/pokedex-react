@@ -9,7 +9,6 @@
 - Um input que filtra os pokemons pelo seu nome ou pelo seu tipo.
 - Ao clicar em um pokemon apresenta as suas informações detalhadas como moves e abilities.
 
-
 ## Tecnologias
 
 - Styled Components: Estilizar os componentes sem um arquivo css.
