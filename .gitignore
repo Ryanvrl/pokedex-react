@@ -7,8 +7,7 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-
-.eslintrc.cjs
+vite.config.js
 tests
 .jest
 babel.config.json
