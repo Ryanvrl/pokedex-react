@@ -16,6 +16,7 @@
 - React Router: Usada para facilitar a navegação dentro da aplicação.
 - PokeAPI: Usada para buscar os pokemons.
 - Axios: Foi usado para buscar os dados ao invés do Fetch.
+- Context API: Para a criação de uma função que alterna o tema do projeto.
 
 ## Gifs
 
