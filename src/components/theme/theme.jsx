@@ -6,7 +6,7 @@ const Theme = () => {
     const { theme, setTheme } = useContext(ThemeContext)
 
     return (
-        <Button onClick={() => setTheme(theme === themes.ligth ? themes.dark : themes.ligth)} style={{color: theme.color}}>Change theme</Button>
+        <Button onClick={() => setTheme(theme === themes.ligth ? themes.dark : themes.ligth)} >Change theme</Button>
     )
 }
 
@@ -16,6 +16,7 @@ const Button = styled.button`
     width: 200px;
     background: none;
     border: none;
+    color: ${(theme) => theme.theme.color};
     cursor: pointer;
     padding: 20px;
     border-radius: 10px;

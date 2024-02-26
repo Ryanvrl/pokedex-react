@@ -1,8 +1,6 @@
 import styled from "styled-components"
-import './pokemon.css'
 import { useContext } from "react"
 import { ThemeContext } from "../contexts/theme-context"
-import { useState } from "react"
 import { TypeComponent } from "../typeComponent/typeComponent"
 
 const CardPokemon = ({ pokemon }) => {
@@ -10,7 +8,7 @@ const CardPokemon = ({ pokemon }) => {
 
     return (
         <Card className="cards" theme={theme} >
-            <img src={pokemon ? pokemon.sprites.other.home.front_default : '<div>Carregando...</div>'} alt={pokemon.name} className='img-card' />
+            <img src={pokemon.sprites.other.home.front_default} alt={pokemon.name} className='img-card' />
             <span className="number">Nº{pokemon.id}</span>
             <h3 className="name-pokemon">{pokemon.name}</h3>
             <div className="types">
@@ -96,10 +94,5 @@ const Card = styled.li`
         }
     }   
 `
-
-
-
-
-
 
 export { CardPokemon }

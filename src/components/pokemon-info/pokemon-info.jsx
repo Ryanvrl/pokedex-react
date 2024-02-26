@@ -8,12 +8,9 @@ import { BarFunctions } from "../barFunctions/BarFunctions"
 import { TypeComponent } from "../typeComponent/typeComponent"
 import { Loading } from "../loading/loading"
 
-const getPokemon = async (id) => {
-    const response = await axios.get(`${urlDefault}/${id}`)
-    return await response.data
-}
 
-const DetalhesPokemon = () => {
+
+const PokemonInfo = () => {
     const [pokemon, setPokemon] = useState({})
     const [image, setImage] = useState('')
     const [moves, setMoves] = useState([])
@@ -40,6 +37,11 @@ const DetalhesPokemon = () => {
         fetchData()
     }, [])
 
+    const getPokemon = async (id) => {
+        const response = await axios.get(`${urlDefault}/${id}`)
+        return await response.data
+    }
+
     const getMoves = (pokemon) => {
         const movesTotal = []
         for (let i = 0; i <= pokemon.moves.length - 1; i++) {
@@ -56,7 +58,7 @@ const DetalhesPokemon = () => {
         setAbilities(abilitiesFinal)
     }
 
-    // AO ROLAR A PAGINA INICIAL PARA BAIXO E CLICAR NO PIKACHU POR EXEMPLO, A SCROLL BAR DA PAGINA DE DETALHES COMEÇA POR BAIXO, NÃO CONSEGUI RESOLVER ISSO. E TAMBÉM OS AVISOS DO CONSOLE SOBRE A FONTE DA LOGO.
+    // AO ROLAR A PAGINA INICIAL PARA BAIXO E CLICAR NO PIKACHU POR EXEMPLO, A SCROLL BAR DA PAGINA DE DETALHES DO POKEMON COMEÇA POR BAIXO, NÃO CONSEGUI RESOLVER ISSO. E TAMBÉM OS AVISOS DO CONSOLE SOBRE A FONTE DA LOGO.
 
     return (
         <Main theme={theme}>
@@ -89,7 +91,7 @@ const DetalhesPokemon = () => {
                             <div key={abilitys.id}>
                                 <h4 className="title-ability">{abilitys.name}</h4>
                                 <div className="text-ability">
-                                    {abilitys.effect_entries.length === 0 ? '' : abilitys.effect_entries[1].effect}
+                                    {abilitys.effect_entries.length == 0 ? '' : abilitys.effect_entries[1].effect}
                                 </div>
                             </div>
                         )}
@@ -254,4 +256,4 @@ const Main = styled.main`
 
 `
 
-export { DetalhesPokemon }
+export { PokemonInfo }

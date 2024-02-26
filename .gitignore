@@ -7,6 +7,12 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+
+.eslintrc.cjs
+tests
+.jest
+babel.config.json
+jest.config.js
 node_modules
 dist
 dist-ssr

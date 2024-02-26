@@ -2,14 +2,12 @@ import { useEffect, useState } from "react"
 import axios from "axios"
 import styled from "styled-components"
 import { urlDefault } from "../../services/urls/urls"
-import { CardPokemon } from "../pokemon/pokemon"
+import { CardPokemon } from "../pokemon-card/pokemon-card"
 import { BarFunctions } from "../barFunctions/BarFunctions"
 import { useContext } from "react"
 import { ThemeContext } from "../contexts/theme-context"
 import { Link } from "react-router-dom"
 import { Loading } from "../loading/loading"
-
-
 
 const Pokemons = () => {
     const [pokemon, setPokemon] = useState([])
@@ -32,10 +30,9 @@ const Pokemons = () => {
             endpoints.push(`${urlDefault}/${i}/`)
         }
         var response = axios.all(endpoints.map((endpoint) => axios.get(endpoint))).then((res) => setPokemon(res))
-
     }
 
-    // AO ROLAR A PAGINA INICIAL PARA BAIXO E CLICAR NO PIKACHU POR EXEMPLO, A SCROLL BAR DA PAGINA DE DETALHES COMEÇA POR BAIXO, NÃO CONSEGUI RESOLVER ISSO. E TAMBÉM OS AVISOS DO CONSOLE SOBRE A FONTE DA LOGO.
+    // AO ROLAR A PAGINA INICIAL PARA BAIXO E CLICAR NO PIKACHU POR EXEMPLO, A SCROLL BAR DA PAGINA DE DETALHES DO POKEMON COMEÇA POR BAIXO, NÃO CONSEGUI RESOLVER ISSO. E TAMBÉM OS AVISOS DO CONSOLE SOBRE A FONTE DA LOGO.
 
     return (
         <Main theme={theme}>
@@ -60,7 +57,6 @@ const Pokemons = () => {
                             )
                         }
                     </ul>
-
                 </div>
 
                 {!removeLoading && <Loading />}
