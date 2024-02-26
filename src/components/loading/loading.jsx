@@ -26,8 +26,6 @@ const LoadingComp = styled.div`
     color: ${(theme) => theme.theme.colorPokemon}; 
     margin: 20px 0;
     
-    
-
     .loading-icon {
         margin-left: 5px;
         animation: rotate 0.3s infinite;

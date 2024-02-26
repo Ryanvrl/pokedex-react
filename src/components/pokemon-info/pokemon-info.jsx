@@ -8,8 +8,6 @@ import { BarFunctions } from "../barFunctions/BarFunctions"
 import { TypeComponent } from "../typeComponent/typeComponent"
 import { Loading } from "../loading/loading"
 
-
-
 const PokemonInfo = () => {
     const [pokemon, setPokemon] = useState({})
     const [image, setImage] = useState('')

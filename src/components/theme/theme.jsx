@@ -10,8 +10,6 @@ const Theme = () => {
     )
 }
 
-
-
 const Button = styled.button`
     width: 200px;
     background: none;

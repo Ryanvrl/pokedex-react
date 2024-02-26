@@ -36,7 +36,6 @@ const Pokemons = () => {
 
     return (
         <Main theme={theme}>
-
             <div className="container-main">
                 <BarFunctions search={search} setSearch={setSearch} />
                 <div className="container-list">

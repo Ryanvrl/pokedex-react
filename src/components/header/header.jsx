@@ -3,7 +3,6 @@ import styled from 'styled-components'
 import { ThemeContext } from '../contexts/theme-context'
 import { Link } from 'react-router-dom'
 
-
 const Header = () => {
     const { theme } = useContext(ThemeContext)
 
