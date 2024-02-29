@@ -6,7 +6,7 @@ const Theme = () => {
     const { theme, setTheme } = useContext(ThemeContext)
 
     return (
-        <Button onClick={() => setTheme(theme === themes.ligth ? themes.dark : themes.ligth)} >Change theme</Button>
+        <Button onClick={() => setTheme(theme === themes.ligth ? themes.dark : themes.ligth)} theme={theme}>Change theme</Button>
     )
 }
 

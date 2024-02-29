@@ -22,7 +22,7 @@ const PokemonInfo = () => {
 
     useEffect(() => {
         async function fetchData() {
-            getPokemon(idPoke.idPoke)
+            await getPokemon(idPoke.idPoke)
         }
         fetchData()
     }, [])
@@ -40,12 +40,10 @@ const PokemonInfo = () => {
                 setIsPending(false)
             })
             .catch(e => {
-                console.log(e);
                 setIsPending(false)
                 setError(e.message)
 
             })
-        return response
     }
 
     const getMoves = (pokemon) => {

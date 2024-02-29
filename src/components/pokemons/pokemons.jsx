@@ -13,31 +13,34 @@ const Pokemons = () => {
     const [pokemon, setPokemon] = useState([])
     const [numberPerPage, setNumberPerPage] = useState(10)
     const [search, setSearch] = useState('')
-    const [removeLoading, setRemoveLoading] = useState(false)
+    const [isPending, setIsPending] = useState(true)
     const { theme } = useContext(ThemeContext)
 
     useEffect(() => {
         getCardPokemon()
-        setTimeout(() => {
-            setRemoveLoading(true)
-        }, 400);
-        setRemoveLoading(false)
     }, [numberPerPage])
 
     const getCardPokemon = () => {
-        var endpoints = []
+        let endpoints = []
         for (var i = 1; i <= numberPerPage; i++) {
             endpoints.push(`${urlDefault}/${i}/`)
         }
-        var response = axios.all(endpoints.map((endpoint) => axios.get(endpoint))).then((res) => setPokemon(res))
+        let response = axios
+            .all(endpoints
+                .map((endpoint) => axios
+                    .get(endpoint)))
+            .then((res) => {
+                setPokemon(res)
+                setIsPending(false)
+            })
     }
 
     // AO ROLAR A PAGINA INICIAL PARA BAIXO E CLICAR NO PIKACHU POR EXEMPLO, A SCROLL BAR DA PAGINA DE DETALHES DO POKEMON COMEÇA POR BAIXO, NÃO CONSEGUI RESOLVER ISSO. E TAMBÉM OS AVISOS DO CONSOLE SOBRE A FONTE DA LOGO.
 
     return (
         <Main theme={theme}>
+            <BarFunctions search={search} setSearch={setSearch} />
             <div className="container-main">
-                <BarFunctions search={search} setSearch={setSearch} />
                 <div className="container-list">
                     <ul className="container-cards">
                         {(numberPerPage == 10 || numberPerPage > 10) && pokemon
@@ -57,10 +60,12 @@ const Pokemons = () => {
                         }
                     </ul>
                 </div>
+                {isPending && <Loading />}
 
-                {!removeLoading && <Loading />}
-
-                <button className="load-more" onClick={() => setNumberPerPage(numberPerPage + 10)} >Load more</button>
+                <button className="load-more" onClick={() => {
+                    setNumberPerPage(numberPerPage + 10)
+                    setIsPending(true)
+                }} >Load more</button>
             </div>
 
 
