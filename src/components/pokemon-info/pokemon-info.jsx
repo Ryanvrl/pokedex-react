@@ -7,37 +7,45 @@ import { useParams } from "react-router-dom"
 import { BarFunctions } from "../barFunctions/BarFunctions"
 import { TypeComponent } from "../typeComponent/typeComponent"
 import { Loading } from "../loading/loading"
+import { ErrorGet } from "../errorGet/error-get"
 
 const PokemonInfo = () => {
-    const [pokemon, setPokemon] = useState({})
+    const [pokemon, setPokemon] = useState(null)
     const [image, setImage] = useState('')
     const [moves, setMoves] = useState([])
     const [types, setTypes] = useState([])
     const [abilities, setAbilities] = useState([])
-    const [removeLoading, setRemoveLoading] = useState(false)
+    const [error, setError] = useState(null)
+    const [isPending, setIsPending] = useState(true)
     const { theme } = useContext(ThemeContext)
     const idPoke = useParams()
 
     useEffect(() => {
         async function fetchData() {
-            const response = await getPokemon(idPoke.idPoke)
-            setPokemon(response)
-            setImage(response.sprites.other.home.front_default)
-            getMoves(response)
-            getAbilities(response)
-            setTypes(response.types)
-            setTimeout(async () => {
-                setRemoveLoading(true)
-                await response
-            }, 500);
-            setRemoveLoading(false)
+            getPokemon(idPoke.idPoke)
         }
         fetchData()
     }, [])
 
     const getPokemon = async (id) => {
-        const response = await axios.get(`${urlDefault}/${id}`)
-        return await response.data
+        const response = await axios.get(`${urlDefault}/${id}`).then(res => {
+            return res.data
+        })
+            .then(data => {
+                setPokemon(data)
+                setImage(data.sprites.other.home.front_default)
+                getMoves(data)
+                getAbilities(data)
+                setTypes(data.types)
+                setIsPending(false)
+            })
+            .catch(e => {
+                console.log(e);
+                setIsPending(false)
+                setError(e.message)
+
+            })
+        return response
     }
 
     const getMoves = (pokemon) => {
@@ -63,7 +71,9 @@ const PokemonInfo = () => {
             <div className="functions">
                 <BarFunctions />
             </div>
-            {removeLoading === true &&
+            {error && <ErrorGet theme={theme}>  {error}, try again late.</ErrorGet>}
+            {isPending && <Loading />}
+            {pokemon &&
                 <>
                     <div className="pokemon-page">
                         <div className="info-pokemon">
@@ -105,7 +115,6 @@ const PokemonInfo = () => {
                     </div>
                 </>
             }
-            {!removeLoading && <Loading />}
         </Main>
     )
 }
