@@ -2,12 +2,13 @@ import styled from "styled-components"
 import { useContext } from "react"
 import { ThemeContext } from "../contexts/theme-context"
 import { TypeComponent } from "../typeComponent/typeComponent"
+import { colours } from "../colorTypes/colorTypes"
 
 const CardPokemon = ({ pokemon }) => {
     const { theme } = useContext(ThemeContext)
 
     return (
-        <Card className="cards" theme={theme} >
+        <Card className="cards" theme={theme} type={pokemon.types[0].type.name}>
             <img src={pokemon.sprites.other.home.front_default} alt={pokemon.name} className='img-card' />
             <span className="number">Nº{pokemon.id}</span>
             <h3 className="name-pokemon">{pokemon.name}</h3>
@@ -34,14 +35,15 @@ const Card = styled.li`
     border-radius: 10px;
     transition: ease-in-out 0.3s;
     padding-bottom: 10px;
+    color: ${(theme) => theme.theme.colorPokemon};
     &:hover { 
         cursor: pointer;
-        background-color: ${(theme) => theme.theme.backgroundPokemon};
+        color: ${(theme) => theme.theme.colorPokemonHover};
+        background-color: ${(type) => colours[type.type]};
     }
     
     .number {
         font-weight: 300; 
-        color: ${(theme) => theme.theme.colorPokemon};
     }
 
     .img-card {
@@ -49,13 +51,12 @@ const Card = styled.li`
         margin-bottom: 10px;
         border-radius: 10px;
         padding: 10px;
-        background-color: ${(theme) => theme.theme.backgroundPokemon};
+        background-color: ${(type) => colours[type.type]};
     }
 
     .name-pokemon {
         font-size: 20px;   
         font-weight: 400;
-        color: ${(theme) => theme.theme.colorPokemon};
     }
 
     .types {

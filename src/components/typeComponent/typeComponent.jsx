@@ -9,7 +9,7 @@ const TypeComponent = styled.div`
         align-items: center;
         display: flex;
         justify-content: center;
-        border: 2px solid;
+        border: 2px solid ${(theme) => theme.theme.color};
         margin: 20px 0;
 
         @media (max-width: 400px) {

@@ -1,12 +1,11 @@
 import styled from "styled-components"
 import { FiSearch } from 'react-icons/fi';
-import { Theme } from "../theme/theme";
-
+import DarkMode from "../DarkMode/DarkMode";
 
 const BarFunctions = ({ search, setSearch }) => {
     return (
         <Function>
-            <Theme />
+            <DarkMode />
             <div className="bar-search">
                 <input type="text" className="input-pokemon" placeholder="Search here" 
                 value={search} onChange={(e) => setSearch(e.target.value)} />
@@ -17,7 +16,7 @@ const BarFunctions = ({ search, setSearch }) => {
 }
 
 const Function = styled.div`
-    background-color: #1a334b;    
+    background-color: #202C37;    
     padding: 15px;
     width: 100%;
     margin-bottom: 20px;

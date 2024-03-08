@@ -7,12 +7,14 @@ const Header = () => {
     const { theme } = useContext(ThemeContext)
 
     return (
-        <Container>
+        <Container theme={theme}>
             <Link to='/'>
                 <div className='logo'>
-                    <h1 className="title" style={{ color: theme.color }}>Pokédex</h1>
+                    <h1 className="title">
+                        <img src="../public/images/pokemon-logo.png" alt="" className='logo-pokemon'/>
+                    </h1>
 
-                    <img src={"../src/images/pikachu.gif" ?? "./src/images/pikachu.gif"} alt="" className='pikachu' />
+                    <img src="../public/images/pikachu.gif" alt="" className='pikachu' />
                 </div>
             </Link>
         </Container>
@@ -20,18 +22,8 @@ const Header = () => {
 }
 
 const Container = styled.header`
-        @font-face {
-            font-family: 'logo';
-            src: url('./src/fonts/Pokemon Hollow.ttf');    
-        }
-
-        @font-face {
-            font-family: 'logo';
-            src: url('../src/fonts/Pokemon Hollow.ttf');    
-        }
-
-        font-family: logo;
-        background-color: #E3350D;
+        padding: 10px;
+        background-color: ${(theme) => theme.theme.background};
         display: flex;
         justify-content: center;
         align-items: center;
@@ -44,6 +36,7 @@ const Container = styled.header`
         .logo { 
             position: relative;
             overflow: hidden;
+            z-index: 0;
         }
         
         .title {
@@ -51,10 +44,16 @@ const Container = styled.header`
             letter-spacing: 6px;
         }
 
+        .logo-pokemon {
+            position: relative;
+            z-index: -3;
+            width: 270px;
+        }
+
         .pikachu {    
             width: 50px;
             position: absolute;
-            bottom: 20%;
+            bottom: 10%;
             animation: run 5s infinite linear;
         }
 
@@ -65,12 +64,6 @@ const Container = styled.header`
 
             to {
                 left: 100%;
-            }
-        }
-
-        @media (max-width: 600px) {
-            .title {
-                font-size: 30px;  
             }
         }
 `

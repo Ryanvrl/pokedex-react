@@ -20,10 +20,10 @@
 ## Gifs
 
 ### Navegação, alternando tema e entrando nos detalhes do Pokémon
-<img src="./src/images/gif_sem_input.gif" alt="gif funcionalidades">
+<img src="./public/images/gif_sem_input.gif" alt="gif funcionalidades">
 
 ### Filtragem por tipo ou nome do Pokémon
-<img src="./src/images/gif_com_input.gif" alt="gif de filtragem de pokemons">
+<img src="./public/images/gif_com_input.gif" alt="gif de filtragem de pokemons">
 
 ## Como utilizar
 

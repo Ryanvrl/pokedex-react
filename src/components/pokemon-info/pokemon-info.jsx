@@ -4,7 +4,7 @@ import styled from "styled-components"
 import { urlDefault } from "../../services/urls/urls"
 import { ThemeContext } from "../contexts/theme-context"
 import { useParams } from "react-router-dom"
-import { BarFunctions } from "../barFunctions/BarFunctions"
+import { colours } from "../colorTypes/colorTypes"
 import { TypeComponent } from "../typeComponent/typeComponent"
 import { Loading } from "../loading/loading"
 import { ErrorGet } from "../errorGet/error-get"
@@ -14,6 +14,7 @@ const PokemonInfo = () => {
     const [image, setImage] = useState('')
     const [moves, setMoves] = useState([])
     const [types, setTypes] = useState([])
+    const [typeColor, setTypeColor] = useState([])
     const [abilities, setAbilities] = useState([])
     const [error, setError] = useState(null)
     const [isPending, setIsPending] = useState(true)
@@ -38,6 +39,7 @@ const PokemonInfo = () => {
                 getAbilities(data)
                 setTypes(data.types)
                 setIsPending(false)
+                setTypeColor(data.types[0].type.name)
             })
             .catch(e => {
                 setIsPending(false)
@@ -63,12 +65,8 @@ const PokemonInfo = () => {
     }
 
     // AO ROLAR A PAGINA INICIAL PARA BAIXO E CLICAR NO PIKACHU POR EXEMPLO, A SCROLL BAR DA PAGINA DE DETALHES DO POKEMON COMEÇA POR BAIXO, NÃO CONSEGUI RESOLVER ISSO. E TAMBÉM OS AVISOS DO CONSOLE SOBRE A FONTE DA LOGO.
-
     return (
-        <Main theme={theme}>
-            <div className="functions">
-                <BarFunctions />
-            </div>
+        <Main theme={theme} type={typeColor}>
             {error && <ErrorGet theme={theme}>  {error}, try again late.</ErrorGet>}
             {isPending && <Loading />}
             {pokemon &&
@@ -119,14 +117,14 @@ const PokemonInfo = () => {
 
 const Main = styled.main`
     background-color: ${(theme) => theme.theme.background};
+    color: ${(theme) => theme.theme.color};
     display: flex;
     align-items: center;
     flex-direction: column;
     min-height: 90vh;
     font-family: Rubik;
     padding-bottom: 30px;
-
-    
+    padding-top: 50px;
 
     .pokemon-page {
         width: 100%;
@@ -136,17 +134,11 @@ const Main = styled.main`
         margin: 10px;
     }
 
-    .functions {
-        width: 100%;
-    }
-
     .info-pokemon {
         padding: 20px;
         border-radius: 10px;
-        background-color: ${(theme) => theme.theme.backgroundPokemon};
-        color: ${(theme) => theme.theme.colorPokemon};
+        background-color: ${(type) => colours[type.type]};
         width:400px;
-       
     }
 
     .title-pokemon {
@@ -157,9 +149,6 @@ const Main = styled.main`
 
     .pokemon-imagem {
         width: 400px;
-        border-radius: 10px;
-        padding-bottom: 10px;
-        background-color: ${(theme) => theme.theme.backgroundPokemon};
     }
 
     .title {
@@ -172,7 +161,6 @@ const Main = styled.main`
     }
 
     .text-ability {
-        margin-left: 10px;
         min-width: 225px;
     }
 
@@ -186,19 +174,19 @@ const Main = styled.main`
     }
 
     .abilities-container {
-        background-color: ${(theme) => theme.theme.backgroundPokemon};
-        color: ${(theme) => theme.theme.colorPokemon};
+        background-color: ${(type) => colours[type.type]};
         margin: 10px;
         padding: 20px;
         border-radius: 10px;
+        width: 1000px;
     }
 
     .moves-container {
-        color: ${(theme) => theme.theme.colorPokemon};
-        background-color: ${(theme) => theme.theme.backgroundPokemon};
+        background-color: ${(type) => colours[type.type]};
         margin:10px;
         padding: 20px;
         border-radius: 10px;
+        width: 1000px;
     }
 
     .move {
@@ -207,7 +195,6 @@ const Main = styled.main`
         border-radius: 10px;
         padding: 5px 7px;
         background-color: ${(theme) => theme.theme.backgroundInfos};
-        color: ${(theme) => theme.theme.colorPokemon};
     }
 
     @media (min-width: 1450px) {
@@ -216,13 +203,27 @@ const Main = styled.main`
         }
     } 
 
+    @media (max-width: 1050px) {
+        .moves-container {
+            width: 90%;
+        }
+
+        .abilities-container {
+            width: 90%;
+        }
+    } 
+
     @media (max-width: 850px) {
+        .pokemon-page {
+            justify-content: center;
+        }
+
         .pokemon-imagem {
             width: 300px;
         }
 
         .title-pokemon {
-            font-size: 40px;
+            font-size: 30px;
         }
 
         .info-pokemon {
@@ -230,7 +231,7 @@ const Main = styled.main`
         }
     } 
 
-    @media (max-width: 600px) {
+    @media (max-width: 680px) {
         .pokemon-imagem {
             width: 240px;
         }

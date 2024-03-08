@@ -99,7 +99,7 @@ const Main = styled.main`
         padding: 20px;
         border-radius: 10px;
         background-color:  #E3350D;
-        color: ${(theme) => theme.theme.color};
+        color: ${(theme) => theme.theme.background};
         margin: 20px;
         font-weight: 700;
     }

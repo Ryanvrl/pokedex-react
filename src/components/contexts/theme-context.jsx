@@ -4,18 +4,20 @@ const themes = {
     light: {
         name: 'Light',
         color: '#fff',
-        background: '#fff',
+        background: '#F0F4F8',
         colorPokemon: '#000',
+        colorPokemonHover: '#fff',
         backgroundPokemon: ' #cfcfcf',
         backgroundInfos: '#8c8b8b',
     },
     dark: {
         name: 'Dark',
-        color: '#000',
-        background: '#000',
+        color: '#fff',
+        background: '#202C37',
         colorPokemon: '#fff',
-        backgroundPokemon: ' #152736',
-        backgroundInfos: '#051018',
+        colorPokemonHover: '#fff',
+        backgroundPokemon: '#cfcfcf',
+        backgroundInfos: '#202C37',
     }
 }
 
