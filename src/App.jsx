@@ -21,16 +21,6 @@ function App() {
 }
 
 const GlobalStyle = createGlobalStyle`
-      @font-face {
-        font-family: 'logo';
-        src: url('./src/fonts/Pokemon Hollow.ttf');    
-      }
-
-      @font-face {
-        font-family: 'op2';
-        src: url('./src/fonts/Pokemon Solid.ttf');    
-      }
-
       * {
         margin: 0;
         padding: 0;
