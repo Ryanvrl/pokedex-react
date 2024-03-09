@@ -7,7 +7,7 @@ const BarFunctions = ({ search, setSearch }) => {
         <Function>
             <DarkMode />
             <div className="bar-search">
-                <input type="text" className="input-pokemon" placeholder="Search here" 
+                <input type="text" className="input-pokemon" placeholder="Search" 
                 value={search} onChange={(e) => setSearch(e.target.value)} />
                 <FiSearch size={25} color='white' className="icon" />
             </div>

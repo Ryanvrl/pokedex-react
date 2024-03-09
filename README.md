@@ -19,11 +19,11 @@
 
 ## Gifs
 
-### Navegação, alternando tema e entrando nos detalhes do Pokémon
-<img src="./public/images/gif_sem_input.gif" alt="gif funcionalidades">
+### Navegação, alternando tema e filtragem
+<img src="./public/images/alterando-tema.gif" alt="gif funcionalidades">
 
-### Filtragem por tipo ou nome do Pokémon
-<img src="./public/images/gif_com_input.gif" alt="gif de filtragem de pokemons">
+### Infos do Pokemon
+<img src="./public/images/infos-pokemon.gif" alt="gif de filtragem de pokemons">
 
 ## Como utilizar
 

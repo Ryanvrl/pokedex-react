@@ -47,6 +47,7 @@ const Card = styled.li`
     }
 
     .img-card {
+        height: 230px;
         width: 230px;
         margin-bottom: 10px;
         border-radius: 10px;
@@ -67,30 +68,35 @@ const Card = styled.li`
 
     @media (min-width: 1400px) {
         .img-card {
+            height: 270px;
             width: 270px;
         }
     } 
 
     @media (min-width: 1600px) {
         .img-card {
+            height: 300px;
             width: 300px;
         }
     }  
 
     @media (min-width: 1850px) {
         .img-card {
+            height: 340px;
             width: 340px;
         }
     } 
-
+    
     @media (max-width: 850px) {
         .img-card {
+            height: 150px;
             width: 150px;
         }
     }
-
+    
     @media (max-width: 390px) {
         .img-card {
+            height: 110px;
             width: 110px;
         }
     }   

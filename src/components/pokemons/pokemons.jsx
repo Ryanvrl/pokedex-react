@@ -12,17 +12,22 @@ import { Loading } from "../loading/loading"
 const Pokemons = () => {
     const [pokemon, setPokemon] = useState([])
     const [numberPerPage, setNumberPerPage] = useState(10)
+    const [axiosNumber, setAxiosNumber] = useState(100)
     const [search, setSearch] = useState('')
     const [isPending, setIsPending] = useState(true)
     const { theme } = useContext(ThemeContext)
 
     useEffect(() => {
-        getCardPokemon()
+        getPokemons()
     }, [numberPerPage])
 
-    const getCardPokemon = () => {
+    const getPokemons = () => {
+        if (axiosNumber === 1000) {
+            setIsPending(false)
+            return
+        }
         let endpoints = []
-        for (var i = 1; i <= numberPerPage; i++) {
+        for (var i = 1; i <= axiosNumber; i++) {
             endpoints.push(`${urlDefault}/${i}/`)
         }
         let response = axios
@@ -52,24 +57,32 @@ const Pokemons = () => {
                                     || poke.data.types[1] && poke.data.types[1].type.name.toLowerCase()
                                         .includes(search.toLowerCase()))
                             )
+                            .slice(0, numberPerPage)
                             .map((poke) =>
                                 <Link to={`pokemon/${poke.data.id}`} key={poke.data.id} className="link">
+
                                     <CardPokemon pokemon={poke.data} />
                                 </Link>
                             )
+
                         }
                     </ul>
                 </div>
                 {isPending && <Loading />}
 
                 <button className="load-more" onClick={() => {
+                    if (axiosNumber <= 917) {
+                        setAxiosNumber(axiosNumber + 100)
+                    }
                     setNumberPerPage(numberPerPage + 10)
                     setIsPending(true)
-                }} >Load more</button>
+                }}>
+                    Load more
+                </button>
             </div>
 
 
-        </Main>
+        </Main >
 
     )
 }
