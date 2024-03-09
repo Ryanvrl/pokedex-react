@@ -33,7 +33,7 @@ const DarkMode = () => {
             />
             <label className='dark_mode_label' htmlFor='darkmode-toggle'>
                 <img src="./public/images/Moon.svg" alt="" className="moon" />
-                <img src="./public/images/Sun.svg" alt="" className="sun" />
+                <img src="../../public/images/Sun.svg" alt="" className="sun" />
 
             </label>
         </ButtonTheme>
