@@ -14,7 +14,7 @@ const Header = () => {
                         <img src="./images/pokemon-logo.png" alt="" className='logo-pokemon'/>
                     </h1>
 
-                    <img src="./public/images/pikachu.gif" alt="" className='pikachu' />
+                    <img src="./images/pikachu.gif" alt="" className='pikachu' />
                 </div>
             </Link>
         </Container>
