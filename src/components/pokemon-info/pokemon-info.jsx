@@ -8,6 +8,7 @@ import { colours } from "../colorTypes/colorTypes"
 import { TypeComponent } from "../typeComponent/typeComponent"
 import { Loading } from "../loading/loading"
 import { ErrorGet } from "../errorGet/error-get"
+import { FaArrowLeft } from "react-icons/fa";
 
 const PokemonInfo = () => {
     const [pokemon, setPokemon] = useState(null)
@@ -64,13 +65,18 @@ const PokemonInfo = () => {
         setAbilities(abilitiesFinal)
     }
 
-    // AO ROLAR A PAGINA INICIAL PARA BAIXO E CLICAR NO PIKACHU POR EXEMPLO, A SCROLL BAR DA PAGINA DE DETALHES DO POKEMON COMEÇA POR BAIXO, NÃO CONSEGUI RESOLVER ISSO. E TAMBÉM OS AVISOS DO CONSOLE SOBRE A FONTE DA LOGO.
+    // AO ROLAR A PAGINA INICIAL PARA BAIXO E CLICAR NO PIKACHU POR EXEMPLO, A SCROLL BAR DA PAGINA DE DETALHES DO POKEMON COMEÇA POR BAIXO, NÃO CONSEGUI RESOLVER ISSO. 
     return (
         <Main theme={theme} type={typeColor}>
             {error && <ErrorGet theme={theme}>  {error}, try again late.</ErrorGet>}
             {isPending && <Loading />}
             {pokemon &&
                 <>
+                    <div className="container-arrow">
+                        <a href="/" className="link-arrow">
+                            <FaArrowLeft className="icon-arrow" />
+                        </a>
+                    </div>
                     <div className="pokemon-page">
                         <div className="info-pokemon">
                             <h1 className="title-pokemon">{pokemon.name}</h1>
@@ -125,6 +131,25 @@ const Main = styled.main`
     font-family: Rubik;
     padding-bottom: 30px;
     padding-top: 50px;
+
+    .container-arrow {
+        width: 100%;
+    }
+
+    .link-arrow {
+        background-color: ${(type) => colours[type.type]};
+        padding: 10px;
+        border-radius: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: max-content;
+        margin-left: 80px;
+    }
+
+    .icon-arrow {  
+        color: #fff;
+    }
 
     .pokemon-page {
         width: 100%;
@@ -214,6 +239,11 @@ const Main = styled.main`
     } 
 
     @media (max-width: 850px) {
+
+        .link-arrow {
+            margin-left: 40px;
+        }
+
         .pokemon-page {
             justify-content: center;
         }

@@ -11,7 +11,7 @@ const Header = () => {
             <Link to='/'>
                 <div className='logo'>
                     <h1 className="title">
-                        <img src="./images/pokemon-logo.png" alt="" className='logo-pokemon'/>
+                        <img src="./images/pokemon-logo.png" alt="" className='logo-pokemon' />
                     </h1>
 
                     <img src="./images/pikachu.gif" alt="" className='pikachu' />
