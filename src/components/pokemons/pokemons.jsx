@@ -12,7 +12,7 @@ import { Loading } from "../loading/loading"
 const Pokemons = () => {
     const [pokemon, setPokemon] = useState([])
     const [numberPerPage, setNumberPerPage] = useState(10)
-    const [axiosNumber, setAxiosNumber] = useState(100)
+    const [axiosNumber, setAxiosNumber] = useState(300)
     const [search, setSearch] = useState('')
     const [isPending, setIsPending] = useState(true)
     const { theme } = useContext(ThemeContext)
