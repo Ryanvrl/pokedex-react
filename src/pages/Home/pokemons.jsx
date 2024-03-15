@@ -1,47 +1,41 @@
 import { useEffect, useState } from "react"
 import axios from "axios"
 import styled from "styled-components"
-import { urlDefault } from "../../services/urls/urls"
-import { CardPokemon } from "../pokemon-card/pokemon-card"
-import { BarFunctions } from "../barFunctions/BarFunctions"
+import { CardPokemon } from "../../components/pokemon-card/pokemon-card"
+import { BarFunctions } from "../../components/barFunctions/BarFunctions"
 import { useContext } from "react"
-import { ThemeContext } from "../contexts/theme-context"
+import { ThemeContext } from "../../components/contexts/theme-context"
 import { Link } from "react-router-dom"
-import { Loading } from "../loading/loading"
-import { Header } from "../header/header"
+import { Loading } from "../../components/loading/loading"
+import { Header } from "../../components/header/header"
+import { getPokemon, getPokemons } from "../../services/requestApi"
 
 const Pokemons = () => {
+    const paginationLimit = 10
+
     const [pokemon, setPokemon] = useState([])
-    const [numberPerPage, setNumberPerPage] = useState(10)
-    const [axiosNumber, setAxiosNumber] = useState(300)
+    const [paginationOffSet, setPaginationOffSet] = useState(0)
+
+
     const [search, setSearch] = useState('')
     const [isPending, setIsPending] = useState(true)
     const { theme } = useContext(ThemeContext)
 
     useEffect(() => {
-        getPokemons()
-    }, [numberPerPage])
-
-    const getPokemons = () => {
-        if (axiosNumber === 1000) {
+        async function fetchData() {
+            const response = await getPokemons(paginationLimit, paginationOffSet)
+            const pokemonsNames = response.map(pokemon => pokemon.name)
+            const pokemonsPromises = pokemonsNames.map(async (pokemonName) => await getPokemon(pokemonName))
+            const paginatedPokemons = await Promise.all(pokemonsPromises)
+            setPokemon([...pokemon, ...paginatedPokemons])
             setIsPending(false)
-            return
         }
-        let endpoints = []
-        for (var i = 1; i <= axiosNumber; i++) {
-            endpoints.push(`${urlDefault}/${i}/`)
-        }
-        let response = axios
-            .all(endpoints
-                .map((endpoint) => axios
-                    .get(endpoint)))
-            .then((res) => {
-                setPokemon(res)
-                setIsPending(false)
-            })
-    }
+
+        fetchData()
+    }, [paginationOffSet])
 
     // AO ROLAR A PAGINA INICIAL PARA BAIXO E CLICAR NO PIKACHU POR EXEMPLO, A SCROLL BAR DA PAGINA DE DETALHES DO POKEMON COMEÇA POR BAIXO, NÃO CONSEGUI RESOLVER ISSO.
+
 
     return (
         <>
@@ -51,45 +45,40 @@ const Pokemons = () => {
                 <div className="container-main">
                     <div className="container-list">
                         <ul className="container-cards">
-                            {(numberPerPage == 10 || numberPerPage > 10) && pokemon
-                                .filter((poke) =>
-                                    poke.data.name.toLowerCase()
+
+                            <CardPokemon pokemon={
+                                pokemon.filter((poke) =>
+                                    poke.name.toLowerCase()
                                         .includes(search.toLowerCase())
-                                    || (poke.data.types[0].type.name.toLowerCase()
+                                    || (poke.types[0].type.name.toLowerCase()
                                         .includes(search.toLowerCase())
-                                        || poke.data.types[1] && poke.data.types[1].type.name.toLowerCase()
+                                        || poke.types[1] && poke.types[1].type.name.toLowerCase()
                                             .includes(search.toLowerCase()))
-                                )
-                                .slice(0, numberPerPage)
-                                .map((poke) =>
-                                    <Link to={`pokemon/${poke.data.id}`} key={poke.data.id} className="link">
+                                ).map((poke) => poke)
 
-                                        <CardPokemon pokemon={poke.data} />
-                                    </Link>
-                                )
+                            } />
 
-                            }
+
+
+
                         </ul>
                     </div>
                     {isPending && <Loading />}
 
                     <button className="load-more" onClick={() => {
-                        if (axiosNumber <= 917) {
-                            setAxiosNumber(axiosNumber + 100)
-                        }
-                        setNumberPerPage(numberPerPage + 10)
+                        setPaginationOffSet(paginationOffSet + 10)
                         setIsPending(true)
                     }}>
                         Load more
                     </button>
                 </div>
-
-
             </Main >
         </>
 
     )
 }
+
+
 
 const Main = styled.main`
     background-color: ${(theme) => theme.theme.background};

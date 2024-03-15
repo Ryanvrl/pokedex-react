@@ -1,28 +1,42 @@
 import styled from "styled-components"
-import { useContext } from "react"
+import { useContext, useEffect, useState } from "react"
 import { ThemeContext } from "../contexts/theme-context"
 import { TypeComponent } from "../typeComponent/typeComponent"
 import { colours } from "../colorTypes/colorTypes"
+import { getPokemon } from "../../services/requestApi"
 
 const CardPokemon = ({ pokemon }) => {
+    const pokemonsList = pokemon
     const { theme } = useContext(ThemeContext)
 
     return (
-        <Card className="cards" theme={theme} type={pokemon.types[0].type.name}>
-            <img src={pokemon.sprites.other.home.front_default} alt={pokemon.name} className='img-card' />
-            <span className="number">Nº{pokemon.id}</span>
-            <h3 className="name-pokemon">{pokemon.name}</h3>
-            <div className="types">
-                {pokemon.types.
-                    map((types) =>
-                        <TypeComponent key={types.type.name} type={types.type.name} theme={theme}>
-                            {types.type.name}
-                        </TypeComponent>
-                    )}
-            </div>
-        </Card>
+        <>
+            {pokemonsList.map((element, index) => {
+                return (  <Card className="cards" theme={theme} type={element.types[0].type.name} key={index}>
+                <img src={element.sprites.front_default} alt={element.name} className='img-card' />
+                <span className="number">Nº{element.id}</span>
+                <h3 className="name-pokemon">{element.name}</h3>
+                <div className="types">
+                    {element.types.
+                        map((types) =>
+                            <TypeComponent key={types.type.name} type={types.type.name} theme={theme}>
+                                {types.type.name}
+                            </TypeComponent>
+                        )}
+                </div>
+            </Card>
+
+                )
+            })
+               
+            }
+
+        </>
+
     )
 }
+
+
 
 const Card = styled.li` 
     display: flex;   

@@ -1,15 +1,14 @@
 import axios from "axios"
 import { useContext, useEffect, useState } from "react"
 import styled from "styled-components"
-import { urlDefault } from "../../services/urls/urls"
-import { ThemeContext } from "../contexts/theme-context"
+import { ThemeContext } from "../../components/contexts/theme-context"
 import { useParams } from "react-router-dom"
-import { colours } from "../colorTypes/colorTypes"
-import { TypeComponent } from "../typeComponent/typeComponent"
-import { Loading } from "../loading/loading"
-import { ErrorGet } from "../errorGet/error-get"
+import { colours } from "../../components/colorTypes/colorTypes"
+import { TypeComponent } from "../../components/typeComponent/typeComponent"
+import { Loading } from "../../components/loading/loading"
+import { ErrorGet } from "../../components/errorGet/error-get"
 import { FaArrowLeft } from "react-icons/fa";
-import { Header } from "../header/header"
+import { Header } from "../../components/header/header"
 
 const PokemonInfo = () => {
     const [pokemon, setPokemon] = useState(null)
@@ -31,7 +30,7 @@ const PokemonInfo = () => {
     }, [])
 
     const getPokemon = async (id) => {
-        const response = await axios.get(`${urlDefault}/${id}`).then(res => {
+        const response = await axios.get(`https://pokeapi.co/api/v2/pokemon/${id}`).then(res => {
             return res.data
         })
             .then(data => {
@@ -129,6 +128,7 @@ const Main = styled.main`
     background-color: ${(theme) => theme.theme.background};
     color: ${(theme) => theme.theme.color};
     display: flex;
+    min-height: 90vh;
     align-items: center;
     flex-direction: column;
     font-family: Rubik;
