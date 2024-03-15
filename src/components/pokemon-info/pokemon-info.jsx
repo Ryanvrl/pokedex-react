@@ -9,6 +9,7 @@ import { TypeComponent } from "../typeComponent/typeComponent"
 import { Loading } from "../loading/loading"
 import { ErrorGet } from "../errorGet/error-get"
 import { FaArrowLeft } from "react-icons/fa";
+import { Header } from "../header/header"
 
 const PokemonInfo = () => {
     const [pokemon, setPokemon] = useState(null)
@@ -67,57 +68,60 @@ const PokemonInfo = () => {
 
     // AO ROLAR A PAGINA INICIAL PARA BAIXO E CLICAR NO PIKACHU POR EXEMPLO, A SCROLL BAR DA PAGINA DE DETALHES DO POKEMON COMEÇA POR BAIXO, NÃO CONSEGUI RESOLVER ISSO. 
     return (
-        <Main theme={theme} type={typeColor}>
-            {error && <ErrorGet theme={theme}>  {error}, try again late.</ErrorGet>}
-            {isPending && <Loading />}
-            {pokemon &&
-                <>
-                    <div className="container-arrow">
-                        <a href="/" className="link-arrow">
-                            <FaArrowLeft className="icon-arrow" />
-                        </a>
-                    </div>
-                    <div className="pokemon-page">
-                        <div className="info-pokemon">
-                            <h1 className="title-pokemon">{pokemon.name}</h1>
-                            <div className="container-type info">
-                                <h3 className="title-type title">Type</h3>
-                                <div className="types">
-                                    {types
-                                        .map((types) =>
-                                            <TypeComponent key={types.type.name} type={types.type.name} theme={theme} className="type-component">
-                                                {types.type.name}
-                                            </TypeComponent>
-                                        )
-                                    }
-                                </div>
-                            </div>
+        <>
+            <Header />
+            <Main theme={theme} type={typeColor}>
+                {error && <ErrorGet theme={theme}>  {error}, try again late.</ErrorGet>}
+                {isPending && <Loading />}
+                {pokemon &&
+                    <>
+                        <div className="container-arrow">
+                            <a href="/" className="link-arrow">
+                                <FaArrowLeft className="icon-arrow" />
+                            </a>
                         </div>
-                        <img src={image} alt="Pokemon imagem" className="pokemon-imagem" />
-                    </div>
-                    <div className="abilities-container">
-                        <h3 className="title-abilities title">Abilities</h3>
-                        {abilities.map((abilitys) =>
-                            <div key={abilitys.id}>
-                                <h4 className="title-ability">{abilitys.name}</h4>
-                                <div className="text-ability">
-                                    {abilitys.effect_entries.length == 0 ? '' : abilitys.effect_entries[1].effect}
+                        <div className="pokemon-page">
+                            <div className="info-pokemon">
+                                <h1 className="title-pokemon">{pokemon.name}</h1>
+                                <div className="container-type info">
+                                    <h3 className="title-type title">Type</h3>
+                                    <div className="types">
+                                        {types
+                                            .map((types) =>
+                                                <TypeComponent key={types.type.name} type={types.type.name} theme={theme} className="type-component">
+                                                    {types.type.name}
+                                                </TypeComponent>
+                                            )
+                                        }
+                                    </div>
                                 </div>
                             </div>
-                        )}
-                    </div>
-                    <div className="moves-container">
-                        <h3 className="title-moves title">Moves</h3>
-                        {moves.map((move) =>
-                            <span key={move.move.name}
-                                className="move"
-                            >{move.move.name}</span>
-                        )
-                        }
-                    </div>
-                </>
-            }
-        </Main>
+                            <img src={image} alt="Pokemon imagem" className="pokemon-imagem" />
+                        </div>
+                        <div className="abilities-container">
+                            <h3 className="title-abilities title">Abilities</h3>
+                            {abilities.map((abilitys) =>
+                                <div key={abilitys.id}>
+                                    <h4 className="title-ability">{abilitys.name}</h4>
+                                    <div className="text-ability">
+                                        {abilitys.effect_entries.length == 0 ? '' : abilitys.effect_entries[1].effect}
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                        <div className="moves-container">
+                            <h3 className="title-moves title">Moves</h3>
+                            {moves.map((move) =>
+                                <span key={move.move.name}
+                                    className="move"
+                                >{move.move.name}</span>
+                            )
+                            }
+                        </div>
+                    </>
+                }
+            </Main>
+        </>
     )
 }
 
@@ -127,7 +131,6 @@ const Main = styled.main`
     display: flex;
     align-items: center;
     flex-direction: column;
-    min-height: 90vh;
     font-family: Rubik;
     padding-bottom: 30px;
     padding-top: 50px;

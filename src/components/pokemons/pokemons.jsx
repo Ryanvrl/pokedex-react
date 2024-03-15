@@ -8,6 +8,7 @@ import { useContext } from "react"
 import { ThemeContext } from "../contexts/theme-context"
 import { Link } from "react-router-dom"
 import { Loading } from "../loading/loading"
+import { Header } from "../header/header"
 
 const Pokemons = () => {
     const [pokemon, setPokemon] = useState([])
@@ -43,46 +44,49 @@ const Pokemons = () => {
     // AO ROLAR A PAGINA INICIAL PARA BAIXO E CLICAR NO PIKACHU POR EXEMPLO, A SCROLL BAR DA PAGINA DE DETALHES DO POKEMON COMEÇA POR BAIXO, NÃO CONSEGUI RESOLVER ISSO.
 
     return (
-        <Main theme={theme}>
-            <BarFunctions search={search} setSearch={setSearch} />
-            <div className="container-main">
-                <div className="container-list">
-                    <ul className="container-cards">
-                        {(numberPerPage == 10 || numberPerPage > 10) && pokemon
-                            .filter((poke) =>
-                                poke.data.name.toLowerCase()
-                                    .includes(search.toLowerCase())
-                                || (poke.data.types[0].type.name.toLowerCase()
-                                    .includes(search.toLowerCase())
-                                    || poke.data.types[1] && poke.data.types[1].type.name.toLowerCase()
-                                        .includes(search.toLowerCase()))
-                            )
-                            .slice(0, numberPerPage)
-                            .map((poke) =>
-                                <Link to={`pokemon/${poke.data.id}`} key={poke.data.id} className="link">
+        <>
+            <Header />
+            <Main theme={theme}>
+                <BarFunctions search={search} setSearch={setSearch} />
+                <div className="container-main">
+                    <div className="container-list">
+                        <ul className="container-cards">
+                            {(numberPerPage == 10 || numberPerPage > 10) && pokemon
+                                .filter((poke) =>
+                                    poke.data.name.toLowerCase()
+                                        .includes(search.toLowerCase())
+                                    || (poke.data.types[0].type.name.toLowerCase()
+                                        .includes(search.toLowerCase())
+                                        || poke.data.types[1] && poke.data.types[1].type.name.toLowerCase()
+                                            .includes(search.toLowerCase()))
+                                )
+                                .slice(0, numberPerPage)
+                                .map((poke) =>
+                                    <Link to={`pokemon/${poke.data.id}`} key={poke.data.id} className="link">
 
-                                    <CardPokemon pokemon={poke.data} />
-                                </Link>
-                            )
+                                        <CardPokemon pokemon={poke.data} />
+                                    </Link>
+                                )
 
+                            }
+                        </ul>
+                    </div>
+                    {isPending && <Loading />}
+
+                    <button className="load-more" onClick={() => {
+                        if (axiosNumber <= 917) {
+                            setAxiosNumber(axiosNumber + 100)
                         }
-                    </ul>
+                        setNumberPerPage(numberPerPage + 10)
+                        setIsPending(true)
+                    }}>
+                        Load more
+                    </button>
                 </div>
-                {isPending && <Loading />}
-
-                <button className="load-more" onClick={() => {
-                    if (axiosNumber <= 917) {
-                        setAxiosNumber(axiosNumber + 100)
-                    }
-                    setNumberPerPage(numberPerPage + 10)
-                    setIsPending(true)
-                }}>
-                    Load more
-                </button>
-            </div>
 
 
-        </Main >
+            </Main >
+        </>
 
     )
 }
