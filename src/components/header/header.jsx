@@ -12,10 +12,10 @@ const Header = () => {
             <Link to='/'>
                 <div className='logo'>
                     <h1 className="title">
-                        <img src="../src/assets/pokemon-logo.png" alt="" className='logo-pokemon' />
+                        <img src="./assets/pokemon-logo.png" alt="" className='logo-pokemon' />
                     </h1>
 
-                    <img src="../src/assets/pikachu.gif" alt="" className='pikachu' />
+                    <img src="./assets.pikachu.gif" alt="" className='pikachu' />
                 </div>
             </Link>
         </Container>
