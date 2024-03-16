@@ -5,13 +5,11 @@ import { ThemeProvider } from "../components/contexts/theme-context";
 
 const AppRoutes = () => {
   return (
-    <BrowserRouter>
-      <ThemeProvider>
+    <BrowserRouter>    
         <Routes>
           <Route exact path="/" element={<Pokemons />} />
-          <Route exact path='/pokemon/:idPoke' element={<PokemonInfo />} />
+          <Route exact path='/pokemon/:namePoke' element={<PokemonInfo />} />
         </Routes>
-      </ThemeProvider>
     </BrowserRouter>
 
   );

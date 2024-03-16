@@ -19,11 +19,8 @@
 
 ## Gifs
 
-### Navegação, alternando tema e filtragem
-<img src="./public/images/alterando-tema.gif" alt="gif funcionalidades">
-
-### Infos do Pokemon
-<img src="./public/images/infos-pokemon.gif" alt="gif de filtragem de pokemons">
+### Navegação, alternando tema, filtragem e infos do Pokemon
+<img src="./src/assets/pokemons.gif" alt="gif funcionalidades">
 
 ## Como utilizar
 

@@ -1,30 +1,20 @@
-import { createGlobalStyle } from 'styled-components'
 import { AppRoutes } from './routes/routes'
+import { ThemeProvider } from './components/contexts/theme-context'
+
+import { GlobalStyle } from './styled/styledGlobal'
 
 function App() {
+
   return (
     <>
-      <GlobalStyle />     
-      <AppRoutes />
+      <ThemeProvider>
+        <GlobalStyle />
+        <AppRoutes />
+      </ThemeProvider>
     </>
   )
 }
 
-const GlobalStyle = createGlobalStyle`
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box; 
-      }
 
-      body {
-        height: 100vh;
-        
-      }
-
-      div {
-        height: 100%;
-      }
-`
 
 export default App

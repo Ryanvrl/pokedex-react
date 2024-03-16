@@ -5,47 +5,43 @@ import { CardPokemon } from "../../components/pokemon-card/pokemon-card"
 import { BarFunctions } from "../../components/barFunctions/BarFunctions"
 import { useContext } from "react"
 import { ThemeContext } from "../../components/contexts/theme-context"
-import { Link } from "react-router-dom"
 import { Loading } from "../../components/loading/loading"
 import { Header } from "../../components/header/header"
 import { getPokemon, getPokemons } from "../../services/requestApi"
 
 const Pokemons = () => {
-    const paginationLimit = 10
+    const [fetchLimit, setFetchLimit] = useState(400)
+    const [paginationLimit, setPaginationLimit] = useState(10)
 
     const [pokemon, setPokemon] = useState([])
     const [paginationOffSet, setPaginationOffSet] = useState(0)
-
-
     const [search, setSearch] = useState('')
     const [isPending, setIsPending] = useState(true)
+    const [isPendingFetch, setIsPendingFetch] = useState(true)
+
     const { theme } = useContext(ThemeContext)
 
     useEffect(() => {
         async function fetchData() {
-            const response = await getPokemons(paginationLimit, paginationOffSet)
+            const response = await getPokemons(fetchLimit, paginationOffSet)
             const pokemonsNames = response.map(pokemon => pokemon.name)
             const pokemonsPromises = pokemonsNames.map(async (pokemonName) => await getPokemon(pokemonName))
             const paginatedPokemons = await Promise.all(pokemonsPromises)
             setPokemon([...pokemon, ...paginatedPokemons])
             setIsPending(false)
+            setIsPendingFetch(false)
         }
-
         fetchData()
     }, [paginationOffSet])
-
-    // AO ROLAR A PAGINA INICIAL PARA BAIXO E CLICAR NO PIKACHU POR EXEMPLO, A SCROLL BAR DA PAGINA DE DETALHES DO POKEMON COMEÇA POR BAIXO, NÃO CONSEGUI RESOLVER ISSO.
-
-
+    
     return (
         <>
-            <Header />
+            {!isPendingFetch && <Header />}
             <Main theme={theme}>
-                <BarFunctions search={search} setSearch={setSearch} />
+                {!isPendingFetch && <BarFunctions search={search} setSearch={setSearch} />}
                 <div className="container-main">
                     <div className="container-list">
                         <ul className="container-cards">
-
                             <CardPokemon pokemon={
                                 pokemon.filter((poke) =>
                                     poke.name.toLowerCase()
@@ -54,31 +50,31 @@ const Pokemons = () => {
                                         .includes(search.toLowerCase())
                                         || poke.types[1] && poke.types[1].type.name.toLowerCase()
                                             .includes(search.toLowerCase()))
-                                ).map((poke) => poke)
-
+                                ).slice(0, paginationLimit)
+                                    .map((poke) => poke)
                             } />
-
-
-
-
                         </ul>
                     </div>
                     {isPending && <Loading />}
 
-                    <button className="load-more" onClick={() => {
-                        setPaginationOffSet(paginationOffSet + 10)
+                    {!isPendingFetch && <button className="load-more" onClick={() => {
+                        if (paginationLimit == 1000) return
+                        setPaginationLimit(paginationLimit + 10)
+                        if (pokemon.length >= 900) return
+                        setFetchLimit(fetchLimit + 200)
+                        setPaginationOffSet(fetchLimit)
                         setIsPending(true)
+
+                        setIsPending(false)
                     }}>
                         Load more
-                    </button>
+                    </button>}
                 </div>
             </Main >
         </>
 
     )
 }
-
-
 
 const Main = styled.main`
     background-color: ${(theme) => theme.theme.background};
@@ -92,10 +88,6 @@ const Main = styled.main`
 
     ul {
         list-style-type: none;
-    }
-
-    .link {
-        text-decoration: none;
     }
 
     .load-more {
