@@ -16,8 +16,12 @@ const Card = styled.li`
         align-items: center;
         justify-content: center; 
         text-decoration: none;
-        transition: ease-in-out 0.4s;
+        transition: ease-in-out 0.3s;
         color: ${(theme) => theme.theme.colorPokemon};
+    }
+
+    .link:hover .img-card {
+        box-shadow: none;
     }
 
     .link:hover { 
@@ -25,7 +29,10 @@ const Card = styled.li`
         border-radius: 10px;
         color: ${(theme) => theme.theme.colorPokemonHover};
         background-color: ${(type) => colours[type.type]};
+        box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
     }
+
+    
     
     .number {
         font-weight: 300; 
@@ -38,6 +45,7 @@ const Card = styled.li`
         border-radius: 10px;
         padding: 10px;
         background-color: ${(type) => colours[type.type]};
+        box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
     }
 
     .name-pokemon {
