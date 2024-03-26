@@ -2,9 +2,12 @@ import React from "react";
 import { useContext } from "react"
 import { ThemeContext, themes } from "../contexts/theme-context"
 import { ButtonTheme } from "../../styled/styledDarkMode";
+import sun from '../../assets/Sun.svg'
+import moon from '../../assets/Moon.svg'
 
 
 const DarkMode = () => {
+    console.log(useContext(ThemeContext));
     const { theme, setTheme } = useContext(ThemeContext)
 
     const handleChange = (e) => {
@@ -32,8 +35,8 @@ const DarkMode = () => {
                 defaultChecked={selectedTheme()}
             />
             <label className='dark_mode_label' htmlFor='darkmode-toggle'>
-                <img src="./assets/Moon.svg" alt="" className="moon" />
-                <img src="./assets/Sun.svg" alt="" className="sun" />
+                <img src={moon} alt="" className="moon" />
+                <img src={sun} alt="" className="sun" />
             </label>
         </ButtonTheme>
     );

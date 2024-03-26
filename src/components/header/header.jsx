@@ -1,8 +1,9 @@
 import { useContext } from 'react'
-import styled from 'styled-components'
 import { ThemeContext } from '../contexts/theme-context'
 import { Link } from 'react-router-dom'
 import { Container } from '../../styled/styledHeader'
+import logo from '../../assets/pokemon-logo.png'
+import pikachu from '../../assets/pikachu.gif'
 
 const Header = () => {
     const { theme } = useContext(ThemeContext)
@@ -12,15 +13,14 @@ const Header = () => {
             <Link to='/'>
                 <div className='logo'>
                     <h1 className="title">
-                        <img src={"../../../assets/pokemon-logo.png" || "./assets/pokemon-logo.png"} alt="" className='logo-pokemon' />
+                        <img src={logo} alt="" className='logo-pokemon' />
                     </h1>
 
-                    <img src={"../../assets/pikachu.gif" || "./assets/pikachu.gif"}alt="" className='pikachu' />
+                    <img src={pikachu}alt="" className='pikachu' />
                 </div>
             </Link>
         </Container>
     )
 }
-
 
 export { Header }
