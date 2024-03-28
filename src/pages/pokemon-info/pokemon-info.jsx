@@ -6,16 +6,14 @@ import { Loading } from "../../components/loading/loading"
 import { FaArrowLeft } from "react-icons/fa";
 import { Header } from "../../components/header/header"
 import { getPokeAbility, getPokemon } from "../../services/requestApi"
-import { scrollToTop } from "../../services/functionsDefault"
+import { ScrollToTop } from "../../services/functionsDefault"
 import { Main } from "../../styled/styledPokemonInfo"
 
 const PokemonInfo = () => {
     const [pokemon, setPokemon] = useState(null)
     const [abilitiesFinal, setAbilitiesFinal] = useState(null)
     const [isPending, setIsPending] = useState(true)
-
     const { theme } = useContext(ThemeContext)
-
     const namePoke = useParams()
 
     useEffect(() => {
@@ -25,8 +23,6 @@ const PokemonInfo = () => {
                     setPokemon(res)
                     setAbilitiesFinal(await getPokeAbility(res.abilities))
                 }).catch()
-
-            scrollToTop()
             setIsPending(false)
         }
         fetchData()
@@ -34,10 +30,10 @@ const PokemonInfo = () => {
 
     return (
         <>
-            <Header />
+            <Header/>
             {isPending && <Loading />}
             {pokemon &&
-                <Main theme={theme} type={pokemon.types[0].type.name}>
+                <Main theme={theme} type={pokemon.types[0].type.name}>           
                     <div className="container-arrow">
                         <a href="/" className="link-arrow">
                             <FaArrowLeft className="icon-arrow" />
@@ -88,6 +84,7 @@ const PokemonInfo = () => {
 
                 </Main>
             }
+           <ScrollToTop />
         </>
     )
 }
